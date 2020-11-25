@@ -1,0 +1,139 @@
+"""
+DTTData type is principal type on the service
+
+"""
+
+type DTTData {
+    """
+    id of the element object
+    """
+    _id: String
+
+    """
+    Type of the element to draw
+    """
+    objectType: String
+
+    """
+    Beginning of element position
+    """
+    leftEndPosition: String
+
+    """
+    Ending of element position
+    """
+    rightEndPosition: String
+
+    """
+    Direction of the genetic element
+    """ 
+    strand: String
+
+    """
+    RGB value to paint the element 
+    """
+    objectRGBColor: String
+
+    """
+    Width of the line
+    """
+    lineWidth: Int
+
+    """
+    Type of the line
+    """
+    lineType: Int
+
+    """
+    Name of the genetic element drawed
+    """
+    labelName: String
+
+    """
+    Font of the label
+    """
+    labelFont: String
+
+    """
+    Color of the label in RGB value
+    """
+    labelRGBColor: String
+
+    """
+    Size of the label that deploys in the page
+    """
+    labelSize: Int
+
+    """
+    Description of the genetic element drawed
+    """
+    tooltip: String
+
+    """
+    Color of the line drawed in RGB value
+    """
+    lineRGBColor: String
+
+    """
+    Name of the drawed organism
+    """
+    organism: organismType
+}
+
+type organismType {
+    """
+    id of the organism type
+    """
+    organism_id: String
+
+    """
+    Name of the organism type
+    """
+    organism_name:String
+}
+
+type Query {
+"""
+### Name
+getGeneticElementsFromInterval
+
+### Description
+Obtained all the elements that are in the selected range
+
+### Example
+```json
+{
+    getGeneticElementsFromInterval(args){
+        
+        fields_to_show
+
+        organism{
+            fields_to_show
+        }
+
+    }
+}
+```
+"""
+    getGeneticElementsFromInterval(
+        """
+        Defines the beginning of the element range to draw
+        """
+        leftEndPosition:Int,
+        """
+        Defines the ending of the element range to draw
+        """
+        rightEndPosition:Int,
+        """
+        Defines the direction of the element strand, could be forward, reverse or both
+        """
+        strand:String,
+        """
+        Defines the elements to display 
+        """
+        objectType: [String],
+        """
+        Define if the elements to draw are completely in the selected range (true) or could be outside the range (false by default)
+        """ 
+        covered: Boolean): [DTTData]
+}

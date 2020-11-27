@@ -33,13 +33,12 @@ import express from 'express';
 import {ApolloServer} from 'apollo-server-express';
 import {typeDefs} from './closedToolsSchema';
 import {resolvers} from './closedToolsResolver';
-import mongoose from 'mongoose';
+const conectarDB = require('./dbConnection');
+require('dotenv').config();
 
-// String of mongodb connection
-const uri = 'mongodb+srv://DanielMor:VHlxOJKC6jRBA6c9@datamarts.iahyj.mongodb.net/regulondbdatamarts?retryWrites=true&w=majority';
 
 // Make the connection to MongoDB using mongoose
-mongoose.connect(uri,{useUnifiedTopology: true, useNewUrlParser: true});
+conectarDB();
 
 // Defining graphql server
 const server = new ApolloServer({

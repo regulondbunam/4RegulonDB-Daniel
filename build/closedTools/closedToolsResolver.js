@@ -9,4 +9,6 @@ var _mergeGraphqlSchemas = require('merge-graphql-schemas');
 
 var _dttResolver = require('./dttService/dttResolver');
 
+// merge all resolvers files and exports them to index
 const resolvers = exports.resolvers = (0, _mergeGraphqlSchemas.mergeResolvers)([_dttResolver.dttResolver]);
+// Import each resolver file

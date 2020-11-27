@@ -96,7 +96,7 @@ class dttController {
                                             }
                                             return dtt_response
                                         });
-            // When strand is "forward" and "reverse"
+            // When strand is "forward and "reverse"
             else
                                             // Return all elements that are contained in the selected range.
                 return Data.find({$and:[{$or:[{$and:[{leftEndPosition:{$gte:leftEndPosition}},{rightEndPosition:{$lte:rightEndPosition}}]},

@@ -50,21 +50,12 @@ const server = new ApolloServer({
 // create an instance of express to be used with ApolloServer
 const app = express();
 
-// set a limiter  to the api
-/*
-const apiLimiter = rateLimit({
-    windowsMs = 60000,
-    max = 1000,
-    message:{
-        message: 'To many request',
-        statusCode: '429'
-    }
-}); 
-app.use(apiLimiter);
-*/
 
 // apply express instance to apolloserver
 server.applyMiddleware({app});
 
+//Set an enviroment variable for the port (4000 by default)
+const PORT = process.env.PORT || 4000;
+
 //Server start
-const servExpress = app.listen(4000, ()=> console.log(`El servidor esta funcionando en http://localhost:${servExpress.address().port}${server.graphqlPath}`));
+const servExpress = app.listen(PORT, ()=> console.log(`El servidor esta funcionando en http://localhost:${servExpress.address().port}${server.graphqlPath}`));

@@ -1,6 +1,9 @@
 {
   "name": "regulondb-serviciosweb",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.15.0"
+  },
   "description": "Servicios web para herramientas  RegulonDB implementando graphql",
   "main": "gateway.js",
   "directories": {

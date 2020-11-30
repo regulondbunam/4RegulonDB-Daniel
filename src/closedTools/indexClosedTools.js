@@ -44,7 +44,8 @@ conectarDB();
 const server = new ApolloServer({
     playground: true,
     typeDefs,
-    resolvers
+    resolvers,
+    introspection: true
 });
 
 // create an instance of express to be used with ApolloServer

@@ -1,5 +1,5 @@
 /** 
-# indexClosedTools.js
+# closedTools.js
 
 ## Description
 Configures Graphql server
@@ -33,7 +33,7 @@ import express from 'express';
 import {ApolloServer} from 'apollo-server-express';
 import {typeDefs} from './closedToolsSchema';
 import {resolvers} from './closedToolsResolver';
-const conectarDB = require('./dbConnection');
+const conectarDB = require('../config/dbConnection');
 require('dotenv').config();
 
 
@@ -45,7 +45,11 @@ const server = new ApolloServer({
     playground: true,
     typeDefs,
     resolvers,
-    introspection: true
+    introspection: true,
+    formatError: (err) => ({
+        message: err.message,
+        statusCode: err.extensions.exception.statusCode
+    })
 });
 
 // create an instance of express to be used with ApolloServer
@@ -53,10 +57,16 @@ const app = express();
 
 
 // apply express instance to apolloserver
-server.applyMiddleware({app});
+server.applyMiddleware({
+    app,
+    cors:{
+        origin: '*',
+        methods: "GET, HEAD, PUT, PATCH, POST, DELETE"
+    }
+});
 
 //Set an enviroment variable for the port (4000 by default)
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4002;
 
 //Server start
 const servExpress = app.listen(PORT, ()=> console.log(`El servidor esta funcionando en http://localhost:${servExpress.address().port}${server.graphqlPath}`));

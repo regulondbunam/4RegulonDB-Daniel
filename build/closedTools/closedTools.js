@@ -43,7 +43,7 @@ RegulonDB drawing traces tool web service
 **/
 
 // imports needed libraries
-const conectarDB = require('./dbConnection');
+const conectarDB = require('../config/dbConnection');
 require('dotenv').config();
 
 // Make the connection to MongoDB using mongoose
@@ -53,17 +53,28 @@ conectarDB();
 const server = new _apolloServerExpress.ApolloServer({
     playground: true,
     typeDefs: _closedToolsSchema.typeDefs,
-    resolvers: _closedToolsResolver.resolvers
+    resolvers: _closedToolsResolver.resolvers,
+    introspection: true,
+    formatError: err => ({
+        message: err.message,
+        statusCode: err.extensions.exception.statusCode
+    })
 });
 
 // create an instance of express to be used with ApolloServer
 const app = (0, _express2.default)();
 
 // apply express instance to apolloserver
-server.applyMiddleware({ app });
+server.applyMiddleware({
+    app,
+    cors: {
+        origin: '*',
+        methods: "GET, HEAD, PUT, PATCH, POST, DELETE"
+    }
+});
 
 //Set an enviroment variable for the port (4000 by default)
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4002;
 
 //Server start
 const servExpress = app.listen(PORT, () => console.log(`El servidor esta funcionando en http://localhost:${servExpress.address().port}${server.graphqlPath}`));

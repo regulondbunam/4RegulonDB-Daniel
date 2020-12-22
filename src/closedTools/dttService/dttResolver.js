@@ -14,7 +14,6 @@ import {dttResolver} from './dttResolver';
 N/A
 
 ## Examples
-Preguntar
 
 ## Return 
 N/A

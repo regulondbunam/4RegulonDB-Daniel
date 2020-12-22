@@ -47,7 +47,22 @@ const dttDataObject = new mongoose.Schema({
     organism: {
         organism_id: String,
         organism_name: String
-    }
+    },
+    relatedGenes: [{
+        gene_id: String,
+        effect: String,
+        objectRGBColor: String,
+        strand: String,
+        tooltip: String
+    }],
+    linkedObjectsWhenNoPositions: [{
+        _id: String,
+        leftEndPosition: Number,
+        name: String,
+        rightEndPosition: Number,
+        strand: String,
+        type: String
+    }]
 });
 
 const Data = mongoose.model('dnafeatures', dttDataObject, 'dnaFeatures');

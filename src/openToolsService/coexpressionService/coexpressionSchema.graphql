@@ -1,20 +1,91 @@
+"""
+CoexpressionData is the principal type on the service
+"""
 type CoexpressionData {
-    id: String
+    """
+    id of the coexpression element
+    """
+    _id: String
+    """
+    id of the first gene 
+    """
     gene_id1: String
+    """
+    id of the second gene 
+    """
     gene_id2: String
+    """
+    tag of the first gene
+    """
     locusTag1: String
+    """
+    tag of the second gene
+    """
     locusTag2: String
+    """
+    name of the first gene
+    """
     gene_name1: String
+    """
+    name of the second gene
+    """
     gene_name2: String
+    """
+    rank of the match between both elements
+    """
     rank: Int
+    """
+    organism information
+    """
     organism: Organism
 }
 
+"""
+OrganismType contains the information of the organism 
+"""
 type Organism {
+    """
+    id of the organism
+    """
     organism_id: String
+    """
+    name of the organism
+    """
     organism_name: String
 }
 
 type Query {
-    getGeneCoexpression(gene_name1:String, gene_name2:String, limit:Int): CoexpressionData
+    """
+    ### Name
+    getGeneCoexpression
+
+    ### Description
+    Get information of the gene require in coexpression service
+
+    ### Example
+    ```json{
+        getGeneCoexpression(args){
+            fields_to_show
+            organism{
+                fields_to_show
+            }
+        }
+    }
+    ```
+    """
+    getGeneCoexpression(
+        """
+        Defines the id of the gene to search
+        """
+        id: String, 
+        """
+        Defines the name of the gene to search
+        """
+        gene: String,
+        """
+        Defines the limit of the elements to show (max 50)
+        """
+        limit: Int): [CoexpressionData]
+
+    getMatrixHeatmap(secondaryGeneId: String, genesIdToCompare: [String], secondaryGeneName: String, genesNameToCompare: [String]): [CoexpressionData]
 }

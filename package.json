@@ -12,8 +12,11 @@
     "test": "test"
   },
   "scripts": {
-    "start": "npm run build && node build/closedTools/indexClosedTools.js",
-    "start:dev": "nodemon --exec babel-node src/closedTools/indexClosedTools.js",
+    "start": "npm run build && node build/closedTools/closedTools.js",
+    "start:all": "concurrently \"npm run start:dev\" \"npm run start:dev:OpenTools\" ",
+    "start:OpenTools": "npm run build && node build/openToolsService/openTools.js",
+    "start:dev": "nodemon --exec babel-node src/closedTools/closedTools.js",
+    "start:dev:OpenTools": "nodemon --exec babel-node src/openToolsService/openTools.js",
     "build": "babel src -d build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,6 +31,8 @@
   },
   "homepage": "https://github.com/regulondbunam/RegulonDB-ServiciosWeb-Daniel#readme",
   "dependencies": {
+    "@apollo/federation": "^0.20.7",
+    "@apollo/gateway": "^0.21.4",
     "apollo-server-express": "^2.19.0",
     "axios": "^0.21.0",
     "babel-cli": "^6.26.0",
@@ -42,6 +47,7 @@
     "mongoose": "^5.10.11"
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
     "nodemon": "^2.0.6"
   }
 }

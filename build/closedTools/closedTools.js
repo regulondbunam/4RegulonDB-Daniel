@@ -13,7 +13,7 @@ var _closedToolsResolver = require('./closedToolsResolver');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /** 
-# indexClosedTools.js
+# closedTools.js
 
 ## Description
 Configures Graphql server

@@ -27,7 +27,6 @@ const dttResolver = exports.dttResolver = {
    N/A
    
    ## Examples
-   Preguntar
    
    ## Return 
    N/A

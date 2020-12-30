@@ -99,17 +99,20 @@ class coexpressionController {
     }
 
     static getMatrixHeatmap(secondaryGeneId, genesIdToCompare, secondaryGeneName, genesNameToCompare){
+        // Both arguments needs to be defined of ID type to work.
         if(secondaryGeneId !== undefined && genesIdToCompare !== undefined)
         {
             return CoexpressionData.find({$or:[{$and:[{"gene_id1": secondaryGeneId},{"gene_id2": {$in: genesIdToCompare}}]},
                                                {$and:[{"gene_id1":{$in: genesIdToCompare}},{"gene_id2": {$in: genesIdToCompare}}]}]}).sort({"rank":1});
         }
+        // Otherwise it works with names.
         else if(secondaryGeneName !== undefined && genesNameToCompare !== undefined){
             // This function makes the string as Case Insensitive
             let secondaryGeneNameCI = RegExp(secondaryGeneName,'i');
             return CoexpressionData.find({$or:[{$and:[{"gene_name1":secondaryGeneNameCI},{"gene_name2":{$in: genesNameToCompare}}]},
                                                {$and:[{"gene_name1":{$in: genesNameToCompare}},{"gene_name2":secondaryGeneNameCI}]}]}).sort({"rank":1});
         }
+        // When you set a name type with an id type togheter it throws graphql error due consistency
         else {
             const err = new GraphQLError('Variables not defined correctly');
             err.statusCode=400;

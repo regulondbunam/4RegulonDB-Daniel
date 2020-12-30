@@ -64,12 +64,14 @@ type Query {
 
     ### Example
     ```json{
-        getGeneCoexpression(args){
-            fields_to_show
-            organism{
-                fields_to_show
-            }
-        }
+    getGeneCoexpression(gene: "arac")
+    {
+        gene_id1
+        gene_name1
+        gene_id2
+        gene_name2
+        rank
+    }
     }
     ```
     """
@@ -87,5 +89,48 @@ type Query {
         """
         limit: Int): [CoexpressionData]
 
-    getMatrixHeatmap(secondaryGeneId: String, genesIdToCompare: [String], secondaryGeneName: String, genesNameToCompare: [String]): [CoexpressionData]
+     """
+    ### Name
+    getMatrixHeatmap
+
+    ### Description
+    Get the list of the genes to compare with the top 50 genes of the principal gene. It works with names or ids.
+
+    ### Example
+    ```json{
+    getMatrixHeatmap(
+    secondaryGeneName: "arac", 
+    genesNameToCompare:[name list] 
+    OR 
+    secondaryGeneId:"id", 
+    genesIdToCompare[id list])
+    {
+        gene_id1
+        gene_name1
+        gene_id2
+        gene_name2
+    }
+    }
+    ```
+    """
+    getMatrixHeatmap(
+        """
+        Id of the gene to compare with the principal gene
+        """
+        secondaryGeneId: String,
+
+        """
+        Id list of the top 50 principal gene
+        """ 
+        genesIdToCompare: [String],
+
+        """
+        Name of the gene to compare with the principal gene
+        """ 
+        secondaryGeneName: String,
+
+        """
+        Name list of the top 50 principal gene
+        """ 
+        genesNameToCompare: [String]): [CoexpressionData]
 }

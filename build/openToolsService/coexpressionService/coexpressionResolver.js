@@ -10,7 +10,7 @@ var _coexpressionController = require('./coexpressionController');
 const coexpressionResolver = exports.coexpressionResolver = {
   Query: {
     getGeneCoexpression: (root, { id, gene, limit }) => _coexpressionController.coexpressionController.getGeneCoexpression(id, gene, limit),
-    getMatrixHeatmap: (root, { secondaryGeneId, genesIdToCompare, secondaryGeneName, genesNameToCompare }) => _coexpressionController.coexpressionController.getMatrixHeatmap(secondaryGeneId, genesIdToCompare, secondaryGeneName, genesNameToCompare)
+    getRankFromGeneList: (root, { geneId, geneIdList, gene, geneList }) => _coexpressionController.coexpressionController.getRankFromGeneList(geneId, geneIdList, gene, geneList)
   }
 }; /**
     # Coexpression service resolver

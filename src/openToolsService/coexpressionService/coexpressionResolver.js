@@ -31,7 +31,27 @@ import {coexpressionController} from './coexpressionController';
 
 export const coexpressionResolver = {
     Query:{
-        getGeneCoexpression: (root, {id, gene, limit}) => coexpressionController.getGeneCoexpression(id, gene, limit),
-        getMatrixHeatmap: (root, {secondaryGeneId, genesIdToCompare, secondaryGeneName, genesNameToCompare}) => coexpressionController.getMatrixHeatmap(secondaryGeneId, genesIdToCompare, secondaryGeneName, genesNameToCompare)
+        getGeneCoexpression: (root, {id, gene, limit}) => coexpressionController.getGeneCoexpression(id, gene, limit).then(func1 => {
+            var newObj = func1.map(item =>{
+                return{
+                    coexpressionId: item._id,  
+                    geneId: item.gene_id1, 
+                    geneName: item.gene_name1,
+                    rank: item.rank
+                }
+            });
+            return newObj;
+        }),
+        getRankFromGeneList: (root, {geneId, geneIdList, gene, geneList}) => coexpressionController.getRankFromGeneList(geneId, geneIdList, gene, geneList).then(func2 =>{
+            var newObj = func2.map(item =>{
+                return{
+                    coexpressionId: item._id,  
+                    geneId: item.gene_id1, 
+                    geneName: item.gene_name1,
+                    rank: item.rank
+                }
+            });
+            return newObj
+        })
     }
 }

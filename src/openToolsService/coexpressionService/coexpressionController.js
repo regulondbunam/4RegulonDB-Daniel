@@ -54,13 +54,13 @@ This function returns a list of genes compare with top 50 of principal gene
 
 _Usage:_
 ```javascript
-coexpressionController.getMatrixHeatmap(secondaryGeneId, genesIdToCompare, secondaryGeneName , genesNameToCompare);
+coexpressionController.getMatrixHeatmap(geneId, geneIdList, gene , geneList);
 ```
 _Input parameters:_
-_secondaryGeneId:_ ID of one of the genes to compare with principal gene top 50 in coexpression
-_genesIdToCompare:_ ID list genes of the principal gene top 50  
-_secondaryGeneName:_  Name of one of the genes to compare with principal gene top 50 in coexpression
-_genesNameToCompare:_ Name list genes of the principal gene top 50
+_geneId:_ ID of one of the genes to compare with principal gene top 50 in coexpression
+_geneIdList:_ ID list genes of the principal gene top 50  
+_gene:_  Name of one of the genes to compare with principal gene top 50 in coexpression
+_geneList:_ Name list genes of the principal gene top 50
 
 _Return:_
 coexpressionController: [CoexpressionData]
@@ -78,7 +78,21 @@ class coexpressionController {
         //When the user make a search by id, the service execute this query by gene id
         if(id !== undefined)
         {
-            return CoexpressionData.find({$or:[{"gene_id1": id},{"gene_id2": id}]}).limit(limit).sort({"rank":1});
+            return CoexpressionData.find({$or:[{"gene_id1": id},{"gene_id2": id}]}).limit(limit).sort({"rank":1}).exec().then(
+                coexpressionResponse => {
+                    let objExtract
+                    for(let i = 0; i<coexpressionResponse.length; i++){
+                        objExtract = coexpressionResponse[i].toJSON();
+                        if(id == objExtract.gene_id1){
+                            objExtract.gene_id1 = objExtract.gene_id2;
+                            objExtract.gene_name1 = objExtract.gene_name2;
+                        }
+                        coexpressionResponse[i] = objExtract; 
+                    }
+                    
+                    return coexpressionResponse
+                }
+            );
         }
         else
         {
@@ -92,25 +106,64 @@ class coexpressionController {
                 let geneCI = RegExp(gene,'i');
                 
                 // When the user make a search by name , the service execute this query by name 
-                return CoexpressionData.find({$or:[{"gene_name1": geneCI},{"gene_name2": geneCI}]}).limit(limit).sort({"rank":1});
+                return CoexpressionData.find({$or:[{"gene_name1": geneCI},{"gene_name2": geneCI}]}).limit(limit).sort({"rank":1}).exec().then(
+                    coexpressionResponse => {
+                        let objExtract
+                        for(let i = 0; i<coexpressionResponse.length; i++){
+                            objExtract = coexpressionResponse[i].toJSON();
+                            if(objExtract.gene_name1.match(geneCI)){
+                                objExtract.gene_id1 = objExtract.gene_id2;
+                                objExtract.gene_name1 = objExtract.gene_name2;
+                            }
+                            coexpressionResponse[i] = objExtract; 
+                        }
+                        return coexpressionResponse
+                    }
+                );
             }
         }
         
     }
 
-    static getMatrixHeatmap(secondaryGeneId, genesIdToCompare, secondaryGeneName, genesNameToCompare){
+    static getRankFromGeneList(geneId, geneIdList, gene, geneList){
         // Both arguments needs to be defined of ID type to work.
-        if(secondaryGeneId !== undefined && genesIdToCompare !== undefined)
+        if(geneId !== undefined && geneIdList !== undefined)
         {
-            return CoexpressionData.find({$or:[{$and:[{"gene_id1": secondaryGeneId},{"gene_id2": {$in: genesIdToCompare}}]},
-                                               {$and:[{"gene_id1":{$in: genesIdToCompare}},{"gene_id2": {$in: genesIdToCompare}}]}]}).sort({"rank":1});
+            return CoexpressionData.find({$or:[{$and:[{"gene_id1": geneId},{"gene_id2": {$in: geneIdList}}]},
+                                               {$and:[{"gene_id1":{$in: geneIdList}},{"gene_id2": {$in: geneIdList}}]}]}).sort({"rank":1}).exec().then(
+                                                coexpressionResponse => {
+                                                    let objExtract
+                                                    for(let i = 0; i<coexpressionResponse.length; i++){
+                                                        objExtract = coexpressionResponse[i].toJSON();
+                                                        if(geneId == objExtract.gene_id1){
+                                                            objExtract.gene_id1 = objExtract.gene_id2;
+                                                            objExtract.gene_name1 = objExtract.gene_name2;
+                                                        }
+                                                        coexpressionResponse[i] = objExtract; 
+                                                    }
+                                                    return coexpressionResponse
+                                                }
+                                            );
         }
         // Otherwise it works with names.
-        else if(secondaryGeneName !== undefined && genesNameToCompare !== undefined){
+        else if(gene !== undefined && geneList !== undefined){
             // This function makes the string as Case Insensitive
-            let secondaryGeneNameCI = RegExp(secondaryGeneName,'i');
-            return CoexpressionData.find({$or:[{$and:[{"gene_name1":secondaryGeneNameCI},{"gene_name2":{$in: genesNameToCompare}}]},
-                                               {$and:[{"gene_name1":{$in: genesNameToCompare}},{"gene_name2":secondaryGeneNameCI}]}]}).sort({"rank":1});
+            let geneCI = RegExp(gene,'i');
+            return CoexpressionData.find({$or:[{$and:[{"gene_name1":geneCI},{"gene_name2":{$in: geneList}}]},
+                                               {$and:[{"gene_name1":{$in: geneList}},{"gene_name2":geneCI}]}]}).sort({"rank":1}).exec().then(
+                                                coexpressionResponse => {
+                                                    let objExtract
+                                                    for(let i = 0; i<coexpressionResponse.length; i++){
+                                                        objExtract = coexpressionResponse[i].toJSON();
+                                                        if(objExtract.gene_name1.match(geneCI)){
+                                                            objExtract.gene_id1 = objExtract.gene_id2;
+                                                            objExtract.gene_name1 = objExtract.gene_name2;
+                                                        }
+                                                        coexpressionResponse[i] = objExtract; 
+                                                    }
+                                                    return coexpressionResponse
+                                                }
+                                            );
         }
         // When you set a name type with an id type togheter it throws graphql error due consistency
         else {

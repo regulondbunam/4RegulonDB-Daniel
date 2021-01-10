@@ -39,6 +39,18 @@ type CoexpressionData {
     """
     organism: Organism
 }
+"""
+CoexpressionResume is the type that resumes the documents
+that match with the query but only shows specified data
+to make a short response for the front end.
+"""
+
+type CoexpressionResume {
+    coexpressionId: String
+    geneId: String
+    geneName: String
+    rank: Int
+}
 
 """
 OrganismType contains the information of the organism 
@@ -66,10 +78,9 @@ type Query {
     ```json{
     getGeneCoexpression(gene: "arac")
     {
-        gene_id1
-        gene_name1
-        gene_id2
-        gene_name2
+        coexpressionId
+        geneId
+        geneName
         rank
     }
     }
@@ -87,23 +98,23 @@ type Query {
         """
         Defines the limit of the elements to show (max 50)
         """
-        limit: Int): [CoexpressionData]
+        limit: Int): [CoexpressionResume]
 
      """
     ### Name
-    getMatrixHeatmap
+    getRankFromGeneList
 
     ### Description
     Get the list of the genes to compare with the top 50 genes of the principal gene. It works with names or ids.
 
     ### Example
     ```json{
-    getMatrixHeatmap(
-    secondaryGeneName: "arac", 
-    genesNameToCompare:[name list] 
+    getRankFromGeneList(
+    gene: "arac", 
+    geneList:[name list] 
     OR 
-    secondaryGeneId:"id", 
-    genesIdToCompare[id list])
+    geneId:"id", 
+    geneIdList[id list])
     {
         gene_id1
         gene_name1
@@ -113,24 +124,24 @@ type Query {
     }
     ```
     """
-    getMatrixHeatmap(
+    getRankFromGeneList(
         """
         Id of the gene to compare with the principal gene
         """
-        secondaryGeneId: String,
+        geneId: String,
 
         """
         Id list of the top 50 principal gene
         """ 
-        genesIdToCompare: [String],
+        geneIdList: [String],
 
         """
         Name of the gene to compare with the principal gene
         """ 
-        secondaryGeneName: String,
+        gene: String,
 
         """
         Name list of the top 50 principal gene
         """ 
-        genesNameToCompare: [String]): [CoexpressionData]
+        geneList: [String]): [CoexpressionResume]
 }

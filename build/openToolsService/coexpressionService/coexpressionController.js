@@ -65,13 +65,13 @@ This function returns a list of genes compare with top 50 of principal gene
 
 _Usage:_
 ```javascript
-coexpressionController.getMatrixHeatmap(secondaryGeneId, genesIdToCompare, secondaryGeneName , genesNameToCompare);
+coexpressionController.getMatrixHeatmap(geneId, geneIdList, gene , geneList);
 ```
 _Input parameters:_
-_secondaryGeneId:_ ID of one of the genes to compare with principal gene top 50 in coexpression
-_genesIdToCompare:_ ID list genes of the principal gene top 50  
-_secondaryGeneName:_  Name of one of the genes to compare with principal gene top 50 in coexpression
-_genesNameToCompare:_ Name list genes of the principal gene top 50
+_geneId:_ ID of one of the genes to compare with principal gene top 50 in coexpression
+_geneIdList:_ ID list genes of the principal gene top 50  
+_gene:_  Name of one of the genes to compare with principal gene top 50 in coexpression
+_geneList:_ Name list genes of the principal gene top 50
 
 _Return:_
 coexpressionController: [CoexpressionData]
@@ -100,16 +100,16 @@ class coexpressionController {
         }
     }
 
-    static getMatrixHeatmap(secondaryGeneId, genesIdToCompare, secondaryGeneName, genesNameToCompare) {
+    static getRankFromGeneList(geneId, geneIdList, gene, geneList) {
         // Both arguments needs to be defined of ID type to work.
-        if (secondaryGeneId !== undefined && genesIdToCompare !== undefined) {
-            return _coexpressionModel.CoexpressionData.find({ $or: [{ $and: [{ "gene_id1": secondaryGeneId }, { "gene_id2": { $in: genesIdToCompare } }] }, { $and: [{ "gene_id1": { $in: genesIdToCompare } }, { "gene_id2": { $in: genesIdToCompare } }] }] }).sort({ "rank": 1 });
+        if (geneId !== undefined && geneIdList !== undefined) {
+            return _coexpressionModel.CoexpressionData.find({ $or: [{ $and: [{ "gene_id1": geneId }, { "gene_id2": { $in: geneIdList } }] }, { $and: [{ "gene_id1": { $in: geneIdList } }, { "gene_id2": { $in: geneIdList } }] }] }).sort({ "rank": 1 });
         }
         // Otherwise it works with names.
-        else if (secondaryGeneName !== undefined && genesNameToCompare !== undefined) {
+        else if (gene !== undefined && geneList !== undefined) {
                 // This function makes the string as Case Insensitive
-                let secondaryGeneNameCI = RegExp(secondaryGeneName, 'i');
-                return _coexpressionModel.CoexpressionData.find({ $or: [{ $and: [{ "gene_name1": secondaryGeneNameCI }, { "gene_name2": { $in: genesNameToCompare } }] }, { $and: [{ "gene_name1": { $in: genesNameToCompare } }, { "gene_name2": secondaryGeneNameCI }] }] }).sort({ "rank": 1 });
+                let geneCI = RegExp(gene, 'i');
+                return _coexpressionModel.CoexpressionData.find({ $or: [{ $and: [{ "gene_name1": geneCI }, { "gene_name2": { $in: geneList } }] }, { $and: [{ "gene_name1": { $in: geneList } }, { "gene_name2": geneCI }] }] }).sort({ "rank": 1 });
             }
             // When you set a name type with an id type togheter it throws graphql error due consistency
             else {

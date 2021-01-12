@@ -43,6 +43,6 @@ const coexpressionDataObject = new mongoose.Schema({
     }
 });
 
-const CoexpressionData = mongoose.model('genecoexpressions',coexpressionDataObject,'geneCoexpressions');
+const CoexpressionData = mongoose.model('genecoexpressionTests',coexpressionDataObject,'geneCoexpressionTests');
 
 export {CoexpressionData};

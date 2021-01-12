@@ -72,11 +72,11 @@ type Query {
     getGeneCoexpression
 
     ### Description
-    Get information of the gene require in coexpression service
+    Gets the top Coexpression (50 max and default) by a gene ID or name.
 
     ### Example
     ```json{
-    getGeneCoexpression(gene: "arac")
+    getGeneCoexpression(gene: "arac" or id: "RDBECOLIGN0001")
     {
         coexpressionId
         geneId
@@ -105,7 +105,7 @@ type Query {
     getRankFromGeneList
 
     ### Description
-    Get the list of the genes to compare with the top 50 genes of the principal gene. It works with names or ids.
+    Get the coexpression list from a gene compared to the top of other gene. It works with names or ids.
 
     ### Example
     ```json{
@@ -116,10 +116,10 @@ type Query {
     geneId:"id", 
     geneIdList[id list])
     {
-        gene_id1
-        gene_name1
-        gene_id2
-        gene_name2
+        coexpressionId
+        geneId
+        geneName
+        rank
     }
     }
     ```

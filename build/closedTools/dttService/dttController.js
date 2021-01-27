@@ -107,6 +107,7 @@ class dttController {
                                 if (dtt_obj_extracted.rightEndPosition > rightEndPosition) dtt_obj_extracted.rightEndPosition += "+";
                                 dtt_response[i] = dtt_obj_extracted;
                             }
+                            console.log(dtt_response);
                             return dtt_response;
                         });
                         // When strand is "forward" AND "reverse"

@@ -54,6 +54,6 @@ const coexpressionDataObject = new _mongoose2.default.Schema({
      **/
 
 
-const CoexpressionData = _mongoose2.default.model('genecoexpressions', coexpressionDataObject, 'geneCoexpressions');
+const CoexpressionData = _mongoose2.default.model('genecoexpressionTests', coexpressionDataObject, 'geneCoexpressionTests');
 
 exports.CoexpressionData = CoexpressionData;

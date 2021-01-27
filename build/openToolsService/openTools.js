@@ -6,54 +6,63 @@ var _express2 = _interopRequireDefault(_express);
 
 var _apolloServerExpress = require('apollo-server-express');
 
+var _expressRateLimit = require('express-rate-limit');
+
+var _expressRateLimit2 = _interopRequireDefault(_expressRateLimit);
+
 var _schemaOpenTools = require('./schemaOpenTools');
 
 var _resolverOpenTools = require('./resolverOpenTools');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/** 
-# openTools.js
-
-## Description
-Configures Graphql server
-
-## Usage
-```shell
-npm start
-```
-
-## Arguments/Parameters
-N/A
-
-## Examples
-N/A
-
-## Return 
-N/A
-
-## Category
-RegulonDB Coexpression web service
-
-## License
-
-## Author 
-
-
-**/
+const { buildFederatedSchema } = require("@apollo/federation"); /** 
+                                                                # openTools.js
+                                                                
+                                                                ## Description
+                                                                Configures Graphql server
+                                                                
+                                                                ## Usage
+                                                                ```shell
+                                                                npm start
+                                                                ```
+                                                                
+                                                                ## Arguments/Parameters
+                                                                N/A
+                                                                
+                                                                ## Examples
+                                                                N/A
+                                                                
+                                                                ## Return 
+                                                                N/A
+                                                                
+                                                                ## Category
+                                                                RegulonDB Coexpression web service
+                                                                
+                                                                ## License
+                                                                
+                                                                ## Author 
+                                                                
+                                                                
+                                                                **/
 
 // imports needed libraries
+
 const conectarDB = require('../config/dbConnection');
 require('dotenv').config();
 
 //Make the connection to mongoDB
 conectarDB();
 
+const federatedSchema = buildFederatedSchema([{
+    typeDefs: _apolloServerExpress.gql`${_schemaOpenTools.typeDefsOpen}`,
+    resolvers: _resolverOpenTools.openResolvers
+}]);
+
 //Defining graphql server
 const serverOpenTools = new _apolloServerExpress.ApolloServer({
     playground: true,
-    typeDefs: _schemaOpenTools.typeDefs,
-    resolvers: _resolverOpenTools.openResolvers,
+    schema: federatedSchema,
     introspection: true,
     formatError: err => ({
         message: err.message,
@@ -63,6 +72,18 @@ const serverOpenTools = new _apolloServerExpress.ApolloServer({
 
 // create an instance of express to be used with ApolloServer
 const app = (0, _express2.default)();
+
+//Set a variable to limit requests
+const limiter = (0, _expressRateLimit2.default)({
+    windowMs: 60000,
+    max: 1000,
+    message: {
+        message: 'Too many requests',
+        statusCode: 429
+    }
+});
+//Assign limit to the API
+app.use(limiter);
 
 // apply express instance to apolloserver
 serverOpenTools.applyMiddleware({

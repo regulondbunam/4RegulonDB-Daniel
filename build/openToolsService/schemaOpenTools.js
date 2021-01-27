@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.typeDefs = undefined;
+exports.typeDefsOpen = undefined;
 
 var _mergeGraphqlSchemas = require('merge-graphql-schemas');
 
@@ -20,4 +20,4 @@ const Coexpression = _apolloServerExpress.gql`${_fs2.default.readFileSync('./src
 
 //exports the object that contains all merge schemas
 // Import all libraries to used
-const typeDefs = exports.typeDefs = (0, _mergeGraphqlSchemas.mergeTypes)([Coexpression], { all: true });
+const typeDefsOpen = exports.typeDefsOpen = (0, _mergeGraphqlSchemas.mergeTypes)([Coexpression], { all: true });

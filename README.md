@@ -2,27 +2,59 @@
 
 # Description
 
-[High-level description, describing what exactly software does.]
+API web services to connect RegulonDB MongoDB collections. Functional services currently:
+- Drawing Traces Tool 
+- Coexpression
 
 # Motivation
 
-[Why the software does things the way it does and why it was designed in the first place. What problems are solved by it. Links to publications and comparisons to similar software.]
-
+by it. Links to publications and comparisons to similar software.]
+With the reengineering of RegulonDB passing from relational model to document model, and the updating of them tools to new technologies, was needed new web services using GraphQL technology to get the required data from RegulonDB. This API´s are for the Drawing Traces Tool and Coexpression Tool.
 
 
 # System requirements
 
-[If the software does make high demand on particular resources, then this should be clearly advertised and explained.]
+Required software 
+- Node JS 12.18.4 
+- NPM 6.14.6
 
 # Install 
 
-[This may be described in a separate INSTALL file, but the README must then clearly state this.]
+Once the repo is cloned, use this command  to install all libraries dependencies of the API´s.
+`$ npm install`
 
+After that, use the following command to edit the ".env-sample" file to add credentials to access the MongoDB collections (keeping the variable name).
+```
+# On unix
+nano .env-sample
+
+#On windows
+notepad .\.env-sample
+```
+Then used the next command for rename the file to ".env"
+```
+# On unix
+mv .env-sample .env
+
+#On windows
+REN .env-sample .env
+```
 
 
 # Quick start
 
-[How the first task can be performed with the software, or, in the more extensive  documentation, a link to the quick start. Outlines how to quickly get started with the software using a basic yet practical example]
+There are differents ways to start up the services.
+To start closed services. In local it runs on port: 4002
+    `$ npm run start:dev:closedTools`
+
+To start open services. In local it runs on port: 4003
+    `$ npm run start:dev:openTools`
+
+Instead they can be run at the same time
+    `$ npm run start:all`
+
+To use apollo federation gateway both services need to be start up then execute the script. In local it runs on port 4001
+    `$ npm run start:dev:gateway`
 
 
 
@@ -32,7 +64,11 @@
 
 # License
 
-[Defines the set of rules and conditions for people who want to use the software.]
+Copyright 2020
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 # Support contact information
 
@@ -40,7 +76,6 @@
 
 # Software quality checklist
 
-[This may describe the state of the code, providing the necessary guidance on which aspects could be improved]
 
 **Accessibility**
 

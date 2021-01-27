@@ -14,4 +14,4 @@ var _coexpressionResolver = require('../openToolsService/coexpressionService/coe
 // merge all resolvers files and exports them to index
 
 // Import each resolver file
-const resolvers = exports.resolvers = (0, _mergeGraphqlSchemas.mergeResolvers)([_dttResolver.dttResolver, _coexpressionResolver.coexpressionResolver]);
+const resolvers = exports.resolvers = (0, _mergeGraphqlSchemas.mergeResolvers)([_dttResolver.dttResolver]);

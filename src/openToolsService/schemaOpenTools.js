@@ -7,4 +7,4 @@ import fs from 'fs';
 const Coexpression = gql `${fs.readFileSync('./src/openToolsService/coexpressionService/coexpressionSchema.graphql').toString()}`
 
 //exports the object that contains all merge schemas
-export const typeDefs = mergeTypes([Coexpression],{all:true});
+export const typeDefsOpen = mergeTypes([Coexpression],{all:true});

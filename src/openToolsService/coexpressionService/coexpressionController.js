@@ -30,14 +30,14 @@ RegulonDB Coexpression web service
 /**
 # Function description
 
-## getGeneCoexpression
+## getTopCoexpressionRanking
 
 _Description:_
 This function return those genes expression in diferents conditions.
 
 _Usage:_
 ```javascript
-coexpressionController.getGeneCoexpression(id, gene , limit)
+coexpressionController.getTopCoexpressionRanking(id, gene , limit)
 ```
 _Input parameters:_
 _id:_ id of the gene
@@ -45,16 +45,16 @@ _gene:_ name of the gene
 _limit:_ limit of the results (50 by default)
 
 _Return:_
-coexpressionController: [CoexpressionData]
+coexpressionController: [CoexpressionResume]
 
-## getMatrixHeatmap
+## getRankFromGeneList
 
 _Description:_
 This function returns a list of genes compare with top 50 of principal gene
 
 _Usage:_
 ```javascript
-coexpressionController.getMatrixHeatmap(geneId, geneIdList, gene , geneList);
+coexpressionController.getRankFromGeneList(geneId, geneIdList, gene , geneList);
 ```
 _Input parameters:_
 _geneId:_ ID of one of the genes to compare with principal gene top 50 in coexpression
@@ -63,7 +63,7 @@ _gene:_  Name of one of the genes to compare with principal gene top 50 in coexp
 _geneList:_ Name list genes of the principal gene top 50
 
 _Return:_
-coexpressionController: [CoexpressionData]
+coexpressionController: [CoexpressionResume]
 
 **/
 import { GraphQLError } from 'graphql';
@@ -71,7 +71,7 @@ import { GraphQLError } from 'graphql';
 import {CoexpressionData} from './coexpressionModel';
 
 class coexpressionController {
-    static getGeneCoexpression( id, gene, limit = 50){
+    static getTopCoexpressionRanking( id, gene, limit = 50){
         //The value of limit must be 50 maximum, when its more it takes the default value (50)
         if(limit > 50) limit = 50;
 
@@ -131,6 +131,7 @@ class coexpressionController {
         {
             return CoexpressionData.find({$or:[{$and:[{"gene_id1": geneId},{"gene_id2": {$in: geneIdList}}]},
                                                {$and:[{"gene_id1":{$in: geneIdList}},{"gene_id2": {$in: geneIdList}}]}]}).sort({"rank":1}).exec().then(
+                                                //This function is for mapping the response to the elements of the resume type
                                                 coexpressionResponse => {
                                                     let objExtract
                                                     for(let i = 0; i<coexpressionResponse.length; i++){
@@ -151,6 +152,7 @@ class coexpressionController {
             let geneCI = RegExp(gene,'i');
             return CoexpressionData.find({$or:[{$and:[{"gene_name1":geneCI},{"gene_name2":{$in: geneList}}]},
                                                {$and:[{"gene_name1":{$in: geneList}},{"gene_name2":geneCI}]}]}).sort({"rank":1}).exec().then(
+                                                //This function is for mapping the response to the elements of the resume type
                                                 coexpressionResponse => {
                                                     let objExtract
                                                     for(let i = 0; i<coexpressionResponse.length; i++){

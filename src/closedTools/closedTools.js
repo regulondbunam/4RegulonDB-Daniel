@@ -30,9 +30,11 @@ RegulonDB drawing traces tool web service
 
 // imports needed libraries
 import express from 'express';
-import {ApolloServer} from 'apollo-server-express';
-import {typeDefs} from './closedToolsSchema';
-import {resolvers} from './closedToolsResolver';
+import {ApolloServer, gql} from 'apollo-server-express';
+import rateLimit from 'express-rate-limit';
+import {typeDefsClosed} from './closedToolsSchema';
+import {resolversClosed} from './closedToolsResolver';
+const {buildFederatedSchema} = require("@apollo/federation");
 const conectarDB = require('../config/dbConnection');
 require('dotenv').config();
 
@@ -40,11 +42,15 @@ require('dotenv').config();
 // Make the connection to MongoDB using mongoose
 conectarDB();
 
+const federatedSchema = buildFederatedSchema([{
+    typeDefs: gql`${typeDefsClosed}`,
+    resolvers: resolversClosed
+}]);
+
 // Defining graphql server
 const server = new ApolloServer({
     playground: true,
-    typeDefs,
-    resolvers,
+    schema: federatedSchema,
     introspection: true,
     formatError: (err) => ({
         message: err.message,
@@ -55,6 +61,17 @@ const server = new ApolloServer({
 // create an instance of express to be used with ApolloServer
 const app = express();
 
+//Set a variable to limit requests
+const limiter = rateLimit({
+    windowMs: 60000,
+    max: 1000,
+    message:{
+        message: 'Too many requests',
+        statusCode: 429
+    }
+});
+//Assign limit to the API
+app.use(limiter);
 
 // apply express instance to apolloserver
 server.applyMiddleware({

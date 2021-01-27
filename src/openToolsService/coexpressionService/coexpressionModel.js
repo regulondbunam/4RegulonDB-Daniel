@@ -1,12 +1,35 @@
+/**
+ # Coexpression service model
+
+ ## Description
+ This model object is used to access to DB of RegulonDB through mongoose
+
+## Usage
+```javascript
+import {CoexpressionData} from './coexpressionModel';
+```
+
+##Arguments/parameters
+N/A
+
+## Examples
+N/A
+
+## Return 
+N/A
+
+## Category
+RegulonDB Coexpression web service
+
+## License 
+
+## Author 
+
+ **/
 import mongoose from 'mongoose';
 
-const organismSchema = new mongoose.Schema({
-    organism_id: String,
-    organism_name: String
-});
-
-const coexpressionSchema = new mongoose.Schema({
-    id: String,
+const coexpressionDataObject = new mongoose.Schema({
+    _id: String,
     gene_id1: String,
     gene_id2: String,
     locusTag1: String,
@@ -14,9 +37,12 @@ const coexpressionSchema = new mongoose.Schema({
     gene_name1: String,
     gene_name2: String,
     rank: Number,
-    organism: organismSchema
+    organism: {
+        organism_id: String,
+        organism_name: String
+    }
 });
 
-const coexpressionData = new mongoose.model('',coexpressionSchema);
+const CoexpressionData = mongoose.model('genecoexpressionTests',coexpressionDataObject,'geneCoexpressionTests');
 
-export {coexpressionData};
+export {CoexpressionData};

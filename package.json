@@ -13,10 +13,10 @@
   },
   "scripts": {
     "start": "npm run build && node build/closedTools/closedTools.js",
-    "start:all": "concurrently \"npm run start:dev:closedTools\" \"npm run start:dev:openTools\"",
-    "start:dev:closedTools": "nodemon --exec babel-node src/closedTools/closedTools.js",
-    "start:dev:openTools": "nodemon --exec babel-node src/openToolsService/openTools.js",
-    "start:dev:gateway": "nodemon --exec babel-node src/gateway.js",
+    "services": "npm run build && concurrently -k npm:service:*",
+    "service:closedTools": "node build/closedTools/closedTools.js",
+    "service:openTools": "node build/openToolsService/openTools.js",
+    "gateway": "node build/gateway.js",
     "build": "babel src -d build",
     "test": "jest"
   },

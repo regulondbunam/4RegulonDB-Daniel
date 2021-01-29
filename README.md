@@ -72,7 +72,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 # Support contact information
 
-[It should be clear where to go for support, for example a contact e-mail address]
+regusoft@ccg.unam.mx
 
 # Software quality checklist
 

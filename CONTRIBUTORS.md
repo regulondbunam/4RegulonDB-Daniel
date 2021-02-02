@@ -1,4 +1,4 @@
-## [Software name]
+## GraphQL Web Services for RegulonDB Tools
 
 __Contributors__ 
 

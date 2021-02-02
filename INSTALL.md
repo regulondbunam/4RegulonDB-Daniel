@@ -1,4 +1,4 @@
-# [Software name]
+# GraphQL Web Services for RegulonDB Tools
 
 
 
@@ -9,7 +9,7 @@
 - NPM 6.14.6
 NPM is automatically installed with NodeJS
 
-1. Clone repo with command `git clone [link of the repositorie]`
+1. Clone repo with command `git clone https://github.com/regulondbunam/RegulonDB-ServiciosWeb-Daniel/tree/master`
 
 2. Once the repo is cloned on your computer, to install all dependencies execute:
 

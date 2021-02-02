@@ -60,7 +60,7 @@ Este proyecto contempla dos servicios web para diferentes herramientas de Regulo
 
 La arquitectura permite clasificar los servicios desarrollados en este proyecto de acuerdo con su tipo, DTT pertenecerá a los servicios cerrados pues será consultado únicamente por RegulonDB mientras que Coexpression será abierto y podrá ser consultado por el usuario.
 
-![Arquitectura con Apollo Federation](images/Apollo_Federation.png)
+![Arquitectura con Apollo Federation](images/Apollo_federation.png)
 
 Cada servicio estará contenido dentro de su propio directorio con sus respectivos archivos y se puede visualizar de la siguiente manera.
 ![Estructura del directorio](images/Estructura_directorio_proyecto.png)

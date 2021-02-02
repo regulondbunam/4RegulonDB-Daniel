@@ -60,10 +60,10 @@ Este proyecto contempla dos servicios web para diferentes herramientas de Regulo
 
 La arquitectura permite clasificar los servicios desarrollados en este proyecto de acuerdo con su tipo, DTT pertenecerá a los servicios cerrados pues será consultado únicamente por RegulonDB mientras que Coexpression será abierto y podrá ser consultado por el usuario.
 
-![Arquitectura con Apollo Federation](images/Apollo federation.png)
+![Arquitectura con Apollo Federation](images/Apollo_Federation.png)
 
 Cada servicio estará contenido dentro de su propio directorio con sus respectivos archivos y se puede visualizar de la siguiente manera.
-![Estructura del directorio](images/Estructura de directorio de proyecto.png)
+![Estructura del directorio](images/Estructura_directorio_proyecto.png)
 
 ---
 
@@ -77,7 +77,7 @@ Para que una API de graphql funcione sistemáticamente necesita de ciertos archi
 - **Controlador**: Contiene las funciones expuestas en el resolver para consultar la información de la base de datos y devuelve un objeto en formato JSON.
 - **Index**: Este archivo será el encargado de inicializar el servicio el cual empleará los esquemas GraphQL y resolvers definidos.
 
-![Funcionamiento de una GraphQL API](images/graphql API.png)
+![Funcionamiento de una GraphQL API](images/graphql_API.png)
 
 Para añadir futuros servicios web de RegulonDB se deben de tener los siguientes puntos a consideración para que estos puedan ser integrados a la arquitectura con la que se esta trabajando.
 
@@ -125,7 +125,7 @@ Este servicio es el encargado de extraer la información que será entregada a l
 
 Para la construcción de este servicio se tiene la colección de dnaFeatures en su versión 0.2, la cual puede cambiar en cualquier momento, en MongoDB a la cual se establecerá la conexión, la siguiente imagen muestra como está compuesta dicha colección.
 
-![Colección dnaFeatures v0.2](images/Datamarts_v0.2 - dnaFeatures.jpeg)
+![Colección dnaFeatures v0.2](images/Datamarts_v0.2_dnaFeatures.jpeg)
 
 ### Schema
 
@@ -192,7 +192,7 @@ Este comando esta definido en un script dentro del archivo “***package.json***
 
 Al ingresar a la dirección asignada se muestra la interfaz de playground, la cual tiene definidos todos los elementos pertenecientes al servicio, es decir los types y querys generados en el schema. En la pestaña docs se encuentra toda la información respecto al servicio web y como construir el query.
 
-![Interfaz de playground DTT](images/Interfaz playgorund DTT.JPG)
+![Interfaz de playground DTT](images/Interfaz_playgorund_DTT.JPG)
 
 
 
@@ -201,7 +201,7 @@ Al ingresar a la dirección asignada se muestra la interfaz de playground, la cu
 En la documentación autogenerada (docs) se encuentran los parámetros que podemos definir para el query dependiendo de que se quiera consultar. La solicitud se realiza en tipo JSON y se escribe el nombre del query seguido de los parámetros, y posteriormente los datos que se quieren visualizar.
 Los parámetros del query tienen valores por defecto, a excepción de las posiciones, esos son los únicos que tienen que ser definidos obligatoriamente por el usuario. En la siguiente imagen se muestra una consulta de aquellos elementos que se encuentren en un rango de 100 a 1000.
 
-![Query getGeneticElementsFromInterval](images/Query getGeneticElementsFromInterval.JPG)
+![Query getGeneticElementsFromInterval](images/Query_getGeneticElementsFromInterval.JPG)
 
 
 
@@ -209,7 +209,7 @@ Los parámetros del query tienen valores por defecto, a excepción de las posici
 
 Ya teniendo la consulta, se ejecuta presionando el botón central de la interfaz y obtendremos una respuesta en formato JSON con un arreglo de objetos con los valores que se han solicitado.
 
-![Respuesta query getGeneticElementsFromInterval](images/Respuesta query getGeneticElementsFromInterval.JPG)
+![Respuesta query getGeneticElementsFromInterval](images/Respuesta_getGeneticElementsFromInterval.JPG)
 
 ---
 
@@ -218,7 +218,7 @@ Ya teniendo la consulta, se ejecuta presionando el botón central de la interfaz
 Los datos de coexpression representan la expresión de genes en diferentes condiciones, los cuales se han calculado sobre un score entre cada par de genes, de tal forma que dicho score representa el grado de variabilidad en la expresión de los genes comparados. Entre menor sea el número menor será la variabilidad, es decir, la expresión entre los genes es muy parecida, y entre más crezca el numero mayor será la variabilidad.
 El servicio de coexpression permite construir una matriz la cual contiene aproximadamente 4600 genes.
 
-![Matriz de coexpression](images/Matriz de coexpression.JPG)
+![Matriz de coexpression](images/Matriz_coexpression.JPG)
 
 
 
@@ -226,13 +226,13 @@ El servicio web recibirá contendrá dos querys pues la herramienta se divide en
 
 El servicio web se conecta a la colección de geneCoexpression en su versión 0.2 que se muestra en la siguiente imagen.
 
-![Colección geneCoexpression v0.2](images/Datamarts_v0.2 - geneCoexpression.jpeg)
+![Colección geneCoexpression v0.2](images/Datamarts_v0.2_geneCoexpression.jpeg)
 
 ### Schema
 
 Se genera el esquema graphql en base a la colección de coexpression en su versión 0.2 junto con todos sus campos incluidos los dos querys con los que va a funcionar ***“getTopCoexpressionRanking”*** y ***“getRankFromGeneList”*** y el type que va a retornar. En una entrevista con el cliente se definió un nuevo type que resumiera la respuesta para los querys debido a que la información resulta ser redundante por lo que se generó el type CoexpressionResume que se muestra en la siguiente imagen. Los campos de este type adquieren el valor de aquellos genes diferentes a los que se tienen en la consulta.
 
-![Type coexpressionResume](images/Type coexpressionResume.JPG)
+![Type coexpressionResume](images/Type_coexpressionResume.JPG)
 
 ### Model
 
@@ -261,6 +261,8 @@ Para el query ***“getRankFromGeneList”*** recibirá los siguientes parámetr
 
 Existen dos formas de ejecutar este query, por nombre o por ID, y estas tienen que ser consistentes al realizar la consulta, es decir, que ambos parámetros tienen que ser del mismo tipo.
 
+
+
 ### ¿Cómo usar el servicio?
 
 Este servicio tiene los siguientes requisitos.
@@ -275,7 +277,7 @@ $ npm run service:openTools
 
 En la terminal aparecerá un mensaje con la dirección en la cual se va a alojar el servicio, de ser local se le asignara al puerto 4003. Al ingresar a la URL se mostrará la siguiente interfaz con su respectiva documentación.
 
-![Interfaz playground Coexpression](images/Interfaz playground Coexpression.JPG)
+![Interfaz playground Coexpression](images/Interfaz_playground_Coexpression.JPG)
 
 
 
@@ -283,13 +285,13 @@ En la terminal aparecerá un mensaje con la dirección en la cual se va a alojar
 
 Para el ***“getTopCoexpressionRanking”*** se coloca el nombre del query seguido del parámetro que se le enviaran y los datos que se necesitan, siempre en tipo JSON.
 
-![Query getTopCoexpressionRanking](images/Query getTopCoexpressionRanking.JPG)
+![Query getTopCoexpressionRanking](images/Query_getTopCoexpressionRanking.JPG)
 
 
 
 Otra forma de realizar la consulta es cambiar el parámetro nombre por un ID, por ejemplo.
 
-![Query by ID](images/Query getTopCoexpressionRanking by ID.JPG)
+![Query by ID](images/Query_getTopCoexpressionRanking_by_ID.JPG)
 
 
 
@@ -297,7 +299,7 @@ Otra forma de realizar la consulta es cambiar el parámetro nombre por un ID, po
 
 Una vez ejecutada la consulta devuelve los documentos que coinciden en la búsqueda realizada en el mismo formato JSON.
 
-![Respuesta query getTopCoexpressionRanking](images/Respuesta query getTopCoexpressionRanking.JPG)
+![Respuesta query getTopCoexpressionRanking](images/Respuesta_getTopCoexpressionRanking.JPG)
 
 
 
@@ -305,7 +307,7 @@ Una vez ejecutada la consulta devuelve los documentos que coinciden en la búsqu
 
 Para el query ***“getRankFromGeneList”***, se envía el nombre o ID de un gen como primer parámetro, y una lista de nombres o ID la cual se puede obtiene del query ***"getTopCoexpressionRanking"***.
 
-![Query getRankingFromGeneList](images/Query getRankFromGeneList.JPG)
+![Query getRankingFromGeneList](images/Query_getRankFromGeneList.JPG)
 
 
 
@@ -313,7 +315,7 @@ Para el query ***“getRankFromGeneList”***, se envía el nombre o ID de un ge
 
 Se ejecuta la consulta y obtiene los documentos en donde *“gene”* coincide en uno de los campos “gene_name1” o  ”gene_name2” de cada elemento de *“geneList”*.
 
-![Respuesta query getRankFromGeneList](images/Respuesta query getRankFromGeneList.JPG)
+![Respuesta query getRankFromGeneList](images/Respuesta_getRankFromGeneList.JPG)
 
 
 
@@ -346,7 +348,7 @@ Aun así, hay puntos a considerar para poder ejecutar esta herramienta correctam
 
 3. El archivo “Gateway.js” tiene que contener una lista de servicios junto con las direcciones en las cuales estos son inicializados. En la siguiente imagen se muestra un ejemplo de la lista de servicios definida, funciona tanto para servicios locales como para remotos siempre y cuando sean definidos en esta lista.
 
-![Lista de servicios](images/Lista de servicios.JPG)
+![Lista de servicios](images/Lista_de_servicios.JPG)
 
 
 
@@ -367,7 +369,7 @@ Se genera una dirección que esta habilitada en el puerto 4001 y ahí se muestra
 
 En el ejemplo se puede observar que se encuentran los querys de los dos servicios anteriores más los querys contenidos en el servicio remoto de heroku.
 
-![Playground de gateway](images/Playground del gateway.JPG)
+![Playground de gateway](images/Playground_gateway.JPG)
 
 
 
@@ -375,13 +377,13 @@ Para consultar la información de los querys se sigue el mismo formato que con l
 
 Para efectos de prueba de funcionamiento del gateway se consulta la información con uno de los querys añadidos recientemente.
 
-![Query getAllGenes](images/Query getAllGenes.JPG)
+![Query getAllGenes](images/Query_getAllGenes.JPG)
 
 
 
 El query anterior no esta definido en los servicios de DTT y Coexpression, este pertenece a un servicio externo a los desarrollados en el proyecto, pero con Federation se puede consultar la información de la misma manera como si estuviera de forma local.
 
-![Respuesta query getAllGenes](images/Respuesta query getAllGenes.JPG)
+![Respuesta query getAllGenes](images/Respuesta_getAllGenes.JPG)
 
 
 

@@ -64,7 +64,7 @@ To use apollo federation gateway both services need to be start up then execute 
 
 # License
 
-Copyright 2020
+Copyright 2021 RegulonDB 
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 
@@ -84,7 +84,7 @@ regusoft@ccg.unam.mx
 
 **Documentation**
 
-- [ ] README file
+- [x] README file
 
 **Learnability**
 
@@ -100,7 +100,7 @@ regusoft@ccg.unam.mx
 
 **Copyright & Licensing**
 
-- [ ] LICENSE file
+- [x] LICENSE file
 
 **Portability**
 
@@ -122,8 +122,8 @@ regusoft@ccg.unam.mx
 
 **Changeability**
 
-- [ ] CONTRIBUTING file
-- [ ] Code of Conduct file
+- [x] CONTRIBUTING file
+- [x] Code of Conduct file
 - [ ] Code changes, and their authorship, publicly visible
 
 **Reusability**

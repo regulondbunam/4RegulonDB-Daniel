@@ -13,7 +13,7 @@ require('dotenv').config();
 const PORT = process.env.PORT || 4001;
 
 const gateway = new ApolloGateway({
-    serviceList: [{ name: "openTools", url: "http://localhost:4003/graphql" }, { name: "closedTools", url: "http://localhost:4002/graphql" }, { name: "datamarts", url: "https://regulonws-api.herokuapp.com/graphql" }]
+    serviceList: [{ name: "openTools", url: "http://localhost:4003/graphql" }, { name: "closedTools", url: "http://localhost:4002/graphql" }]
 });
 
 const server = new ApolloServer({

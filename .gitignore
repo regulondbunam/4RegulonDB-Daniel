@@ -31,5 +31,9 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/macos
+<<<<<<< HEAD
 node_modules
 .env
+=======
+node_modules
+>>>>>>> 8e7ddb3612af0d5605ccbeeb1cef79c50afd22ef

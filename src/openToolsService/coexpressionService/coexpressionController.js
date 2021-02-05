@@ -130,7 +130,7 @@ class coexpressionController {
         if(geneId !== undefined && geneIdList !== undefined)
         {
             return CoexpressionData.find({$or:[{$and:[{"gene_id1": geneId},{"gene_id2": {$in: geneIdList}}]},
-                                               {$and:[{"gene_id1":{$in: geneIdList}},{"gene_id2": {$in: geneIdList}}]}]}).sort({"rank":1}).exec().then(
+                                               {$and:[{"gene_id1":{$in: geneIdList}},{"gene_id2": geneId}]}]}).sort({"rank":1}).exec().then(
                                                 //This function is for mapping the response to the elements of the resume type
                                                 coexpressionResponse => {
                                                     let objExtract
@@ -150,8 +150,12 @@ class coexpressionController {
         else if(gene !== undefined && geneList !== undefined){
             // This function makes the string as Case Insensitive
             let geneCI = RegExp(gene,'i');
-            return CoexpressionData.find({$or:[{$and:[{"gene_name1":geneCI},{"gene_name2":{$in: geneList}}]},
-                                               {$and:[{"gene_name1":{$in: geneList}},{"gene_name2":geneCI}]}]}).sort({"rank":1}).exec().then(
+            let geneListCI=[];
+            for (let i=0;i<geneList.length; i++){
+                geneListCI[i]= RegExp(geneList[i],'i');
+            }
+            return CoexpressionData.find({$or:[{$and:[{"gene_name1":geneCI},{"gene_name2":{$in: geneListCI}}]},
+                                               {$and:[{"gene_name1":{$in:geneListCI}},{"gene_name2":geneCI}]}]}).sort({"rank":1}).exec().then(
                                                 //This function is for mapping the response to the elements of the resume type
                                                 coexpressionResponse => {
                                                     let objExtract

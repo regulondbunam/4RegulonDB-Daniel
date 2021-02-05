@@ -145,7 +145,11 @@ class coexpressionController {
         else if (gene !== undefined && geneList !== undefined) {
                 // This function makes the string as Case Insensitive
                 let geneCI = RegExp(gene, 'i');
-                return _coexpressionModel.CoexpressionData.find({ $or: [{ $and: [{ "gene_name1": geneCI }, { "gene_name2": { $in: geneList } }] }, { $and: [{ "gene_name1": { $in: geneList } }, { "gene_name2": geneCI }] }] }).sort({ "rank": 1 }).exec().then(
+                let geneListCI = [];
+                for (let i = 0; i < geneList.length; i++) {
+                    geneListCI[i] = RegExp(geneList[i], 'i');
+                }
+                return _coexpressionModel.CoexpressionData.find({ $or: [{ $and: [{ "gene_name1": geneCI }, { "gene_name2": { $in: geneListCI } }] }, { $and: [{ "gene_name1": { $in: geneListCI } }, { "gene_name2": geneCI }] }] }).sort({ "rank": 1 }).exec().then(
                 //This function is for mapping the response to the elements of the resume type
                 coexpressionResponse => {
                     let objExtract;
